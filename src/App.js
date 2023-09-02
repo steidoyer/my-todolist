@@ -103,7 +103,6 @@ const App = () => {
               ) : null)
             }
             </ul>
-            {/* <Todolist todos={todos} updateTodo={updateTodo} delTodo={delTodo}></Todolist> */}
           </div>
         </div>
       </main>

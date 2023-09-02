@@ -1,0 +1,51 @@
+.item-todo {
+  display: flex;
+  padding: 12px;
+  border-bottom: 1px solid #F3F3F3;
+}
+
+.btn-todo-state {
+  width: 30px;
+  height: 30px;
+  background-size: 30px 30px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  
+  &--complete {
+    background-image: url('../../images/icons/icon_state_todo_complete@2x.png');
+  }
+
+  &--incomplete {
+    background-image: url('../../images/icons/icon_state_todo_incomplete@2x.png');
+  }
+}
+
+.todo-name-area {
+  position: relative;
+  flex-basis: 300px;
+  padding: 0 20px;
+}
+
+.todo-name-input {
+  padding-right: 30px;
+}
+
+.btn-todo-name {
+  position: absolute;
+
+  &-cancel {
+    right: 30px;
+  }
+  &-confirm {
+    right: 5px;
+  }
+}
+
+.todo-item-action {
+  position: relative;
+}
+
+.btn-todoitem-edit {
+  position: absolute;
+  left: -30px;
+}

@@ -1,8 +1,18 @@
+.list-todo {
+  display: flex;
+  flex-direction: column;
+}
+
 .item-todo {
   display: flex;
   padding: 12px;
   border-bottom: 1px solid #F3F3F3;
   justify-content: center;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
 }
 
 .btn-todo-state {
@@ -64,3 +74,52 @@
   position: relative;
   top: 2px;
 }
+
+.list-todo-ani {
+  .item-todo--appear { // todoListView에 나타날때
+    animation: itemTodoAppear .3s;
+    animation-iteration-count: 1;
+    -webkit-animation: itemTodoAppear .3s;
+}
+  .item-todo--disappear { // todoListView에서 사라질 때
+    animation: itemTodoDisppear .3s;
+    animation-iteration-count: 1;
+    -webkit-animation: itemTodoDisppear .3s;
+  }
+}
+
+@keyframes itemTodoAppear {
+  0% {
+    background-color: white;
+  }
+
+  50% {
+    background-color: #6565ff;
+  }
+
+  100% {
+    background-color: white;
+  }
+}
+
+@keyframes itemTodoDisppear {
+  0% {
+    background-color: white;
+  }
+
+  50% {
+    background-color: #ff6a6a;
+  }
+
+  100% {
+    background-color: white;
+    opacity: 0;
+  }
+}
+
+// .item-todo--appear { // todo가 생성될 때
+//   background-color: blue;
+// }
+// .item-todo--disappear { // todo가 완료되었을 떄
+//   background-color: red;
+// }

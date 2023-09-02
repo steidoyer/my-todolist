@@ -1,33 +1,27 @@
 import { useState, useCallback, useRef } from 'react';
-// import Todolist from './components/Todolist';
+import { useDispatch } from "react-redux";
 import TodoInput from './components/TodoInput';
 import TodoMenu from './components/TodoMenu';
-import Todoitem from './components/Todoitem';
-
+import TodoList from './components/TodoList';
+import { insertTodo, deleteTodo } from './modules/Todos';
 import './assets/scss/style.scss';
 
 const App = () => {
-  const Todos = [
-    {
-      id: 1,
-      name: '공부하기',
-      state: 'done'
-    },
-    {
-      id: 2,
-      name: '잠자기',
-      state: ''
-    },
-  ];
+  const dispatch = useDispatch();
 
-  const nextId = useRef(3);
+  const nextId = useRef(0);
   const inputRef = useRef(null);
 
-  const [todos, setTodos] = useState(Todos);
-  const [viewMode, setViewMode] = useState(0);
+  const [viewMode, setViewMode] = useState('all');
+  const [aniMode, setAniMode] = useState(true);
+  const [aniId, setAniId] = useState('');
 
-  const updateTodo = (newTodos) => {
-    setTodos(newTodos);
+  const changeAniMode = (a) => {
+    setAniMode(a);
+  };
+
+  const changeAniId = (a) => {
+    setAniId(a);
   };
 
   const updateViewTodo = (i) => {
@@ -38,7 +32,7 @@ const App = () => {
     inputRef.current.focus();
   };
 
-  const onInsert = useCallback(value => {
+  const onInsert = (value) => {
     // 아무것도 입력 안하면 입력 막음
     if (value === '') {
       alert('내용을 입력해주세요');
@@ -53,22 +47,24 @@ const App = () => {
       state: ''
     }
 
-    updateTodo(todos.concat(todo));
+    setAniId(nextId.current);
+    dispatch(insertTodo(todo));
     nextId.current += 1;
-
     alert('새로운 할 일이 추가되었습니다.');
-  }, [todos]);
+  // }, [todos]); // 어느게 맞는거지?
+  }; // 어느게 맞는거지?
+
 
   const delTodo = useCallback(id => {
     // 삭제 버튼 클릭시 사용자 의사 체크
     if (window.confirm('할 일을 삭제하시겠습니까?')) {
       // 삭제할 때의 동작
-      updateTodo(todos.filter(todo => todo.id !== id));
+      dispatch(deleteTodo(id));
       nextId.current -= 1;
     } else {
       // 삭제를 원하지 않을 때 동작
     };
-  }, [todos]);
+  }, [dispatch]); // 어느게 맞는거지?
 
   return (
     <div className="wrap">
@@ -85,28 +81,12 @@ const App = () => {
         </div>
         <div className="container box-main todo-menu">
           <div className="box__inner todo-menu__inner">
-            <TodoMenu updateViewTodo={updateViewTodo}></TodoMenu>
+            <TodoMenu updateViewTodo={updateViewTodo} aniMode={aniMode} setAniMode={setAniMode} changeAniId={changeAniId}></TodoMenu>
           </div>
         </div>
         <div className="container box-main">
           <div className="box__inner">
-            <ul className="list-todo">
-            { viewMode === 0 && // 전체
-              todos.map(todo => (
-              <Todoitem key={todo.id} todo={todo} todos={todos} updateTodo={updateTodo} delTodo={delTodo} />
-              ))
-            }
-            { viewMode === 1 && // 할 일
-              todos.map(todo => todo.state !== 'done' ? (
-              <Todoitem key={todo.id} todo={todo} todos={todos} updateTodo={updateTodo} delTodo={delTodo} />
-              ) : null)
-            }
-            { viewMode === 2 && // 완료
-              todos.map(todo => todo.state === 'done' ? (
-              <Todoitem key={todo.id} todo={todo} todos={todos} updateTodo={updateTodo} delTodo={delTodo} />
-              ) : null)
-            }
-            </ul>
+            <TodoList delTodo={delTodo} viewMode={viewMode} aniMode={aniMode} setAniMode={setAniMode} aniId={aniId} setAniId={setAniId}></TodoList>
           </div>
         </div>
       </main>

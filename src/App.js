@@ -38,7 +38,6 @@ const App = () => {
     inputRef.current.focus();
   };
 
-  // TodoInput.js에서 정의했던거 App.js로 이동
   const onInsert = useCallback(value => {
     // 아무것도 입력 안하면 입력 막음
     if (value === '') {
@@ -60,10 +59,15 @@ const App = () => {
     alert('새로운 할 일이 추가되었습니다.');
   }, [todos]);
 
-  // TodoItem.js에서 정의했던거 App.js로 이동
   const delTodo = useCallback(id => {
-    updateTodo(todos.filter(todo => todo.id !== id));
-    nextId.current -= 1;
+    // 삭제 버튼 클릭시 사용자 의사 체크
+    if (window.confirm('할 일을 삭제하시겠습니까?')) {
+      // 삭제할 때의 동작
+      updateTodo(todos.filter(todo => todo.id !== id));
+      nextId.current -= 1;
+    } else {
+      // 삭제를 원하지 않을 때 동작
+    };
   }, [todos]);
 
   return (

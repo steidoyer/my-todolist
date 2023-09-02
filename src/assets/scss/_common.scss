@@ -9,6 +9,11 @@
   clip: rect(1px, 1px, 1px, 1px);
 }
 
+/* 모바일 환경에서 웹킷 기반 브라우저에서 터치시 파란 박스영역 생기는 거 투명으로 설정 */
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
 // Google Material Icon
 @font-face {
   font-family: 'Material Icons';

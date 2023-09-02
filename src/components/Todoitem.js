@@ -44,14 +44,13 @@ const Todoitem = (props) => {
   };
 
   const modifyTodoStateCheck = () => {
-    // 투두가 미완료일 때
-    if (todoState === '') {
+    if (todoState === '') { // 투두가 미완료일 때
       const newTodos = todos.map(modifyTodo => modifyTodo.id === todo.id ? { ...modifyTodo, state: 'done'} : modifyTodo);
-      setTodoState('done'); // 투두 상태 변경
+      setTodoState('done'); // 투두 상태 변경 (미완료 -> 완료)
       updateTodo(newTodos);
     } else if (todoState === 'done') { // 투두가 완료일 때
       const newTodos = todos.map(modifyTodo => modifyTodo.id === todo.id ? { ...modifyTodo, state: ''} : modifyTodo);
-      setTodoState(''); // 투두 상태 변경
+      setTodoState(''); // 투두 상태 변경 (완료 -> 미완료)
       updateTodo(newTodos);
     }
   };

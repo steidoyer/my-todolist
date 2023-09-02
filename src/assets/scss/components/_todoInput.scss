@@ -1,7 +1,3 @@
-.todo-input {
-  padding: 20px;
-}
-
 .todo-input__inner {
   display: flex;
   justify-content: center;
@@ -13,6 +9,11 @@
   & .input-todo + .btn-todo-input {
     margin-left: 10px;
   }
+}
+
+.todo-input__form {
+  display: flex;
+  align-items: center;
 }
 
 .input-todo {

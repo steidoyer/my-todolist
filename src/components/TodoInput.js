@@ -1,31 +1,30 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
-const TodoInput = ({ updateTodo, todos }) => {
-  const [text, setText] = useState('');
-  const addTodo = () => {
-    // 아무것도 입력 안하면 입력 막음
-    if (text === '') {
-      alert('내용을 입력해주세요');
-      return;
-    }
-    const todoPlus = {
-      id: todos.length + 1,
-      name: text,
-      state: ''
-    } 
-    const newTodos = todos.concat(todoPlus);
-    setText('');
-    updateTodo(newTodos);
-  };
+const TodoInput = ({ onInsert, inputRef }) => {
+  const [value, setValue] = useState('');
+  
+  // 컴포넌트가 리랜더링될 때마다 함수를 새로 만들지 않고 재사용할 수 있도록 useCallback Hook 사용
+  const inputTextHandler = useCallback(e => {
+    setValue(e.target.value);
+  }, []);
 
-  const inputTextHandler = (e) => {
-    setText(e.target.value);
-  };
+  // 컴포넌트가 리랜더링될 때마다 함수를 새로 만들지 않고 재사용할 수 있도록 useCallback Hook 사용
+  const onSubmit = useCallback(e => {
+    onInsert(value);
+    setValue('');
+
+    e.preventDefault();
+
+  }, [onInsert, value]);
 
   return (
     <>
-      <input type="text" value={text} onChange={inputTextHandler} className="input-todo"/>
-      <button type="button" onClick={addTodo} className="btn-todo-input"><span class="a11y">추가</span></button>
+      <form onSubmit={onSubmit} >
+        <div className="todo-input__form">
+          <input type="text" value={value} onChange={inputTextHandler} className="input-todo" ref={inputRef}/>
+          <button type="submit" className="btn-todo-input"><span className="a11y">추가</span></button>
+        </div>
+      </form>
     </>
   );
 };

@@ -1,37 +1,34 @@
 import { useState, useRef, useEffect } from 'react';
 
 const Todoitem = (props) => {
-  const { todos, todo, updateTodo } = props;
+  const { todos, todo, updateTodo, delTodo } = props;
   const [isEditable, setIsEditable] = useState(false);
   const [changedName, setChangedName] = useState(todo.name);
   const [todoState, setTodoState] = useState(todo.state);
-  const inputRef = useRef();
-  
-  const delTodo = () => {
-    const newTodos = todos.filter(action => action.id !== todo.id);
-    updateTodo(newTodos);
-  };
-  
+  const inputRef = useRef(null);
+
   const modifyTodo = () => {
     setIsEditable(true);
   };
   
   useEffect(() => {
-    return () => {
-      console.log('1');
+    if (isEditable) {
       focusInput();
-      console.log('3');
     }
   }, [isEditable]);
   
   const focusInput = () => {
-    console.log('2');
-    console.dir(inputRef);
-    inputRef.current.focus(); // inputRef.current이 성립이 안됨
-    console.log('??');
+    inputRef.current.focus();
   };
 
   const modifyEndTodo = () => {
+    if (changedName === '') {
+      alert('할 일의 이름을 입력해주세요.');
+      focusInput();
+
+      return;
+    }
+
     const newTodos = todos.map(modifyTodo => modifyTodo.id === todo.id ? { ...modifyTodo, name: changedName } : modifyTodo);
     updateTodo(newTodos);
     setIsEditable(false);
@@ -44,7 +41,6 @@ const Todoitem = (props) => {
 
   const modifyInputHandler = (e) => {
     setChangedName(e.target.value);
-    console.log(changedName);
   };
 
   const modifyTodoStateCheck = () => {
@@ -61,7 +57,7 @@ const Todoitem = (props) => {
   };
 
   return (
-    <li className="item-todo">
+    <li className="item-todo" >
       {/* <div className="item-todo__inner layout-inner"> */}
         {/* 내용 수정 중인 상태가 아닐 때 */}
         {!isEditable && (
@@ -80,7 +76,7 @@ const Todoitem = (props) => {
           </div>
           <div className="todo-item-action">
             <button type="button" onClick={modifyTodo} className="btn btn-todoitem btn-todoitem-edit"><span className="material-symbols-outlined">edit</span></button>
-            <button type="button" onClick={delTodo} className="btn btn-todoitem btn-todoitem-delete"><span className="material-symbols-outlined">delete</span></button>
+            <button type="button" onClick={() => delTodo(todo.id)} className="btn btn-todoitem btn-todoitem-delete"><span className="material-symbols-outlined">delete</span></button>
           </div>
         </>
         )}
@@ -106,11 +102,10 @@ const Todoitem = (props) => {
             </button>
           </div>
           <div className="todo-item-action">
-            <button type="button" onClick={delTodo} className="btn btn-todoitem btn-todoitem-delete"><span className="material-symbols-outlined">delete</span></button>
+            <button type="button" onClick={() => delTodo(todo.id)} className="btn btn-todoitem btn-todoitem-delete"><span className="material-symbols-outlined">delete</span></button>
           </div>
         </>
         )}
-        
       {/* </div> */}
     </li>
   );

@@ -2,6 +2,7 @@
   display: flex;
   padding: 12px;
   border-bottom: 1px solid #F3F3F3;
+  justify-content: center;
 }
 
 .btn-todo-state {
@@ -22,21 +23,29 @@
 
 .todo-name-area {
   position: relative;
-  flex-basis: 300px;
-  padding: 0 20px;
+  flex-basis: 280px;
+  padding-left: 20px;
+}
+
+.txt-todo-name {
+  padding-left: 3px;
+  vertical-align: middle;
 }
 
 .todo-name-input {
-  padding-right: 30px;
+  width: 230px;
+  padding: 2px 30px 2px 3px;
 }
 
 .btn-todo-name {
   position: absolute;
 
   &-cancel {
+    top: 2px;
     right: 30px;
   }
   &-confirm {
+    top: 2px;
     right: 5px;
   }
 }
@@ -47,5 +56,11 @@
 
 .btn-todoitem-edit {
   position: absolute;
+  top: 2px;
   left: -30px;
+}
+
+.btn-todoitem-delete {
+  position: relative;
+  top: 2px;
 }
